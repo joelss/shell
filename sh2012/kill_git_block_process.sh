@@ -36,3 +36,16 @@ do
 		fi
 	fi
 done
+
+# sometimes, it's not enough to only kill by ppid; 
+# I have to kill all the 'git fetch' or 'git-pull' processes which have existed for a long time.
+git_fetch_list=$(ps -ef  | grep "git fetch" | grep -v 'grep' | awk '{print $2}')
+git_pull_list=$(ps -ef  | grep "git-pull" | grep -v 'grep' | awk '{print $2}')
+kill_list="$git_fetch_list $git_pull_list"
+for pid in $kill_list
+do
+	interval=$(get_elapsed_time $pid)
+	if [ "1$interval" -gt "1$threshold" ]; then
+		kill -9 $pid
+	fi
+done
