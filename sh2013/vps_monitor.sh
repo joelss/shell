@@ -1,5 +1,10 @@
 #!/bin/bash
 #set -x
+# the script to monitor my VPS
+# It will alert when memory, load, CPU%, networking, httpd/mysqld or home-page 
+#    is in an abnormal state.
+# author: Jay
+# date: 2013-10-16
 
 EMAIL="yongjie.ren@dianping.com"
 WARN_MSG=""
@@ -34,7 +39,8 @@ function cpu_idle()
 	threshold=20  # CPU idle% 20%
 	cpu_idle=$(sar 1 5 | grep -i 'Average' | awk '{print $NF}')
 	if [ $(echo "$cpu_idle < $threshold" | bc) -eq 1 ]; then
-		WARN_MSG=$WARN_MSG"CPU idle% is less than $threshold%.\n"
+		# in printf cmd, %% represents a single % 
+		WARN_MSG=$WARN_MSG"CPU idle%% is less than $threshold%%.\n"
 		return 1
 	fi
 	return 0
@@ -83,7 +89,7 @@ function home_page()
 	return 0
 }
 
-# get the return value of each monitor function
+# use an array to store the return value of each monitoring function
 mem_free
 chk[1]=$?
 load_avg
