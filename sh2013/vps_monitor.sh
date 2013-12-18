@@ -89,25 +89,23 @@ function home_page()
 	return 0
 }
 
-# use an array to store the return value of each monitoring function
+# use flag to mark if any function return error
+flag=0
 mem_free
-chk[1]=$?
+flag=$(($flag + $?))
 load_avg
-chk[2]=$?
+flag=$(($flag + $?))
 cpu_idle
-chk[3]=$?
+flag=$(($flag + $?))
 network_tx
-chk[4]=$?
+flag=$(($flag + $?))
 httpd_mysqld
-chk[5]=$?
+flag=$(($flag + $?))
 home_page
-chk[6]=$?
+flag=$(($flag + $?))
 
 # send warning email to the web master if any of the check fails.
-for i in $(seq 1 6)
-do
-	if [ ${chk[i]} -ne 0 ]; then
-		printf "$WARN_MSG" | mailx -s "Warning from smilejay.com" $EMAIL
-		exit 1
-	fi
-done
+if [ $flag -ne 0 ]; then
+	printf "$WARN_MSG" | mailx -s "Warning from smilejay.com" $EMAIL
+	exit 1
+fi
