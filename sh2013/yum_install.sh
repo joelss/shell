@@ -33,4 +33,5 @@ yum install glibc-common
 yum install ntpdate
 yum install gcc
 yum install make
-
+yum install freetype
+yum install fontconfig
