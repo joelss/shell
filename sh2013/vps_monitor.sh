@@ -59,21 +59,35 @@ function network_tx()
 	return 0
 }
 
-# alert when httpd or mysqld process doesn't exist
-function httpd_mysqld()
+# alert when httpd/nginx or mysqld or php-fpm process doesn't exist
+function web_mysqld()
 {
-	ps -ef | grep 'httpd' | grep -v 'grep'
+	web_server='nginx'  # or 'httpd'
+	php_fpm='php-fpm'   # nginx works with php-fpm to run wordpress
+	fail=0
+	ps -ef | grep "$web_server" | grep -v 'grep'
 	if [ $? -ne 0 ]; then
-		WARN_MSG=$WARN_MSG"httpd process doesn't exist.\n"
-		return 1
+		WARN_MSG=$WARN_MSG"$web_server process doesn't exist.\n"
+		fail=1
 	else
+		if [ "x$web_server" = "xnginx" ]; then
+			ps -ef | grep "$php_fpm" | grep -v 'grep'
+			if [ $? -ne 0 ]; then
+				WARN_MSG=$WARN_MSG"$php_fpm process doesn't exist.\n"
+				fail=1
+			fi
+		fi
 		ps -ef | grep 'mysqld' | grep -v 'grep'
 		if [ $? -ne 0 ]; then
 			WARN_MSG=$WARN_MSG"mysqld process doesn't exist.\n"
-			return  1
+			fail=1
 		fi
 	fi
-	return 0
+	if [ $fail -eq 1 ]; then
+		return 1
+	else
+		return 0
+	fi
 }
 
 # alert when 'Stay hungry' doesn't exist in the home page http://smilejay.com/
@@ -99,7 +113,7 @@ cpu_idle
 flag=$(($flag + $?))
 network_tx
 flag=$(($flag + $?))
-httpd_mysqld
+web_mysqld
 flag=$(($flag + $?))
 home_page
 flag=$(($flag + $?))
