@@ -35,3 +35,9 @@ yum install gcc
 yum install make
 yum install freetype
 yum install fontconfig
+
+# for nginx
+# http://centos.alt.ru/repository/centos/6/x86_64/nginx-1.5.8-1.el6.x86_64.rpm
+# http://www6.atomicorp.com/channels/atomic/centos/6/x86_64/RPMS/GeoIP-1.4.8-1.1.el6.art.x86_64.rpm 
+yum install openssl
+yum install php-fpm
