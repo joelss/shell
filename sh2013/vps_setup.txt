@@ -4,10 +4,12 @@
 	https://github.com/smilejay/shell/blob/master/sh2013/yum_install.sh
 
 2. config services:
-	chkconfig httpd on
+	# chkconfig httpd on   # when using apache
 	chkconfig mysqld on
 	chkconfig postfix on
-	# service mysqld/httpd start
+	chkconfig nginx on
+	chkconfig php-fpm on
+	# service mysqld/nginx/php-fpm start
 
 3. vim /etc/php.ini
 engine = On
@@ -23,8 +25,11 @@ extension=mysql.so
 	monitor script:
 	https://github.com/smilejay/shell/blob/master/sh2013/vps_monitor.sh
 
-6. some modifcation for httpd.conf
+6. some modification for httpd.conf if using apache
 	https://github.com/smilejay/other-code/blob/master/config/httpd.conf.diff
+6. some modification for nginx & php-fpm
+	https://github.com/smilejay/other-code/blob/master/config/nginx.conf.diff
+	https://github.com/smilejay/other-code/blob/master/config/php-fpm-www.conf.diff
 
 7. a command to get top 20 visitors' IP address:
 cat access_log | awk '{print $1}' | sort | uniq -c | sort -rn | head -20
