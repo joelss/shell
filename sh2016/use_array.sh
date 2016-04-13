@@ -1,12 +1,15 @@
 #!/bin/bash
 #use array in Bash script
-array1=(Alpha Beta)
+array1=(Alpha Beta Gamma)
 echo "array1[0]: ${array1[0]}"
 echo "array1[1]: ${array1[1]}"
 echo "len of array1: ${#array1[@]}"
 echo "len of array1: ${#array1[*]}"
-echo "\${array1[@]: " "${array1[@]}"
-echo "\${array1[*]: " "${array1[*]}"
+echo "len of array1[0]: ${#array1[0]}"
+echo "\${array1[@]}: ${array1[@]}"
+echo "\${array1[*]}: ${array1[*]}"
+echo "\${array1[@]1}: ${array1[@]:1}"
+echo "\${array1[@]1}: ${array1[@]:0:2}"
 
 echo ""
 echo "for in \${array1[@]}:"
@@ -22,6 +25,9 @@ do
 done
 echo ""
 
+unset array1[0]
+echo "\${array1[@]: ${array1[@]}"
+echo ""
 
 array2[0]=11
 array2[1]=22
