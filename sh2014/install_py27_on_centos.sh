@@ -25,7 +25,7 @@ fi
 
 echo "download/build/install your python"
 cd /tmp
-wget $python_url
+wget --no-check-certificate $python_url
 tar -zxf Python-${version}.tgz
 cd Python-${version}
 ./configure
@@ -47,7 +47,7 @@ sleep 5
 
 # install setuptools
 echo "install setuptools"
-wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
+wget --no-check-certificate https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
 python ez_setup.py
 # check easy_install version
 easy_install --version
