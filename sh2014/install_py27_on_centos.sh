@@ -47,7 +47,7 @@ sleep 5
 
 # install setuptools
 echo "install setuptools"
-wget --no-check-certificate https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
+wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py
 python ez_setup.py
 # check easy_install version
 easy_install --version
